@@ -4,14 +4,14 @@ const { getDatabase } = require('firebase/database');
 require('dotenv').config();
 
 const firebaseConfig = {
-    apiKey: process.env.API_KEY,
-    authDomain: process.env.AUTH_ADMIN,
-    projectId: process.env.PROJECT_ID,
-    storageBucket: process.env.STORAGE_BUCKET_ID,
-    messagingSenderId: process.env.MESSAGING_SENDER_ID,
-    appId: process.env.APP_ID,
-    measurementId: process.env.MESUREMENT_ID,
-    databaseURL: process.env.DATABES_URL
+    apiKey: process.env.API_KEY || "AIzaSyBGV1iXgRlJH9YJ5zFHF2GGCXUnjoI9F_Y",
+    authDomain: process.env.AUTH_ADMIN || "ssd-assignment-2-6723b.firebaseapp.com",
+    projectId: process.env.PROJECT_ID || "ssd-assignment-2-6723b",
+    storageBucket: process.env.STORAGE_BUCKET_ID || "ssd-assignment-2-6723b.appspot.com",
+    messagingSenderId: process.env.MESSAGING_SENDER_ID || "238802327118",
+    appId: process.env.APP_ID || "1:238802327118:web:2bd8771762755d9b1f551f",
+    measurementId: process.env.MESUREMENT_ID || "G-K303J998JX",
+    databaseURL: process.env.DATABES_URL || "https://ssd-assignment-2-6723b-default-rtdb.firebaseio.com/"
 };
 
 // Initialize Firebase
