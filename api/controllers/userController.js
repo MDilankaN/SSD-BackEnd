@@ -1,12 +1,6 @@
-// const {
-//     database
-// } = require("../firebase/firebase_crud");
-import firebase from "firebase/app";
-import "firebase/database";
-
-const database = firebase.database();
-
-
+const {
+    database
+} = require("../firebase/firebase_crud");
 
 const registerUser = async (req, res) => {
     try {
