@@ -26,6 +26,7 @@ app.get('/', (req, res) => {
 
 app.use("/fileUploadRoute", require("./api/routes/fileRoute"));
 app.use("/userRoute", require("./api/routes/userRoute"));
+app.use("/messageRoute", require("./api/routes/messageRoute"));
 
 
 app.listen(PORT, () => {
