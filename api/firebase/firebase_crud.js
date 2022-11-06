@@ -1,7 +1,7 @@
 const { initializeApp } = require('firebase/app')
 const { getStorage, uploadBytes ,ref } = require("firebase/storage")
 const { getDatabase } = require('firebase/database');
-import { getFirestore } from 'firebase/firestore';
+
 require('dotenv').config();
 
 const firebaseConfig = {
@@ -19,8 +19,6 @@ const firebaseConfig = {
 const appFirebase = initializeApp(firebaseConfig);
 // Get a database reference to our blog
 const database = getDatabase(appFirebase);
-
-const firebaseDatabase = firebase
 
 const usersRef = ref('users/');
 

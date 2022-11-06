@@ -1,37 +1,29 @@
-const { async } = require("@firebase/util");
-const {
-    database
-} = require("../firebase/firebase_crud");
+const { ref, set } = require("firebase/database");
+const { database } = require("../firebase/firebase_crud");
 
 const registerUser = async (req, res) => {
-    try {
-        if (!req.body) {
-            res.status(200).send("Empty Request");
-        } else {
-            const { username, email, password, type } = req.body;
+  try {
+    if (!req.body) {
+      res.status(200).send("No registration yet");
+    } else {
+      const { username, email, password, type } = req.body;
 
-            console.log(req.body);
-            const user = {
-                username: username,
-                password: password,
-                type:type,
-                email: email
-            }
-
-            const userRes =  await database.set(user);
-
-            res.json(userRes);
-        }
-    } catch (err) {
-        res.status(500).send(err);
-        console.log(err)
+      const usersRef = ref(database , "users/"+username);
+    
+      set(usersRef, {
+        username: username,
+        password: password,
+        email: email,
+        type: type,
+      });
+      res.status(200).send("registration completed");
     }
-
+  } catch (err) {
+    res.status(500).send(err);
+    console.log(err)
+  }
 };
 
-
-const loginUser = async 
-
 module.exports = {
-    registerUser
+  registerUser,
 };
