@@ -24,5 +24,5 @@ const messageSend = async (req, res) => {
 };
 
 module.exports = {
-    registerUser
+    messageSend
 };
