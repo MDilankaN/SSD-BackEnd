@@ -1,39 +1,36 @@
+const { async } = require("@firebase/util");
 const {
     database
 } = require("../firebase/firebase_crud");
 
 const registerUser = async (req, res) => {
     try {
-
         if (!req.body) {
-            res.status(200).send("No registration yet");
+            res.status(200).send("Empty Request");
         } else {
-            const { username, email, password, reneterpassword, type } = req.body;
+            const { username, email, password, type } = req.body;
 
-            if (password == reneterpassword){
-                console.log(database.ref())
-                const usersRef = database.ref().child('users');
-
-                await usersRef.set({
-                    username: username,
-                    password: password,
-                    email: email,
-                    type: type
-                });
-                res.status(200).send("registration completed");
-            }else{
-                res.send({
-                    status: true,
-                    message: 'reenter password incorrect',
-                });
+            console.log(req.body);
+            const user = {
+                username: username,
+                password: password,
+                type:type,
+                email: email
             }
 
+            const userRes =  await database.set(user);
+
+            res.json(userRes);
         }
     } catch (err) {
         res.status(500).send(err);
+        console.log(err)
     }
 
 };
+
+
+const loginUser = async 
 
 module.exports = {
     registerUser
