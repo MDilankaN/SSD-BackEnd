@@ -46,7 +46,7 @@ const registerUser = async (req, res) => {
           type: type,
         };
 
-        const value = await await addDoc(userCollection, userObj, username);
+        const value = await addDoc(userCollection, userObj, username);
 
         res.status(200).send("successed");
       } else {
