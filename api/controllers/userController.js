@@ -2,12 +2,24 @@ const { ref, set } = require("firebase/database");
 const { collection, getDocs, addDoc } = require("firebase/firestore");
 const { firestoredb } = require("../firebase/firebase_crud");
 
+// const userDatabase = {
+//   users : require('../models/users.json')
+// }
+
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
+const fsPromises = require("fs").promises;
+const path = require("path");
+
 const registerUser = async (req, res) => {
   try {
     if (!req.body) {
       res.status(200).send("No registration yet");
     } else {
       const { username, email, password, type } = req.body;
+
+      const hashedPwd = await bcrypt.hash(password, 10);
 
       const userCollection = collection(firestoredb, "users");
 
@@ -26,18 +38,16 @@ const registerUser = async (req, res) => {
           console.log(e);
         });
 
-      console.log("value " + datausers);
-
       if (!datausers) {
         const userObj = {
           username: username,
-          password: password,
+          password: hashedPwd,
           email: email,
           type: type,
         };
-        console.log("userObj" + userObj);
+
         const value = await await addDoc(userCollection, userObj, username);
-        console.log(value);
+
         res.status(200).send("successed");
       } else {
         res.status(200).send("User already exsits");
@@ -60,11 +70,11 @@ const loginUser = async (req, res) => {
 
       const datausers = await getDocs(userCollection)
         .then((snapshot) => {
-          let val = "invalid";
+          let val = "invalid creds";
           snapshot.docs.forEach((doc) => {
-            if (doc.id === username) {
-              val = "username correct";
-              if (doc.data().password === password) {
+            if(doc.data().username === username) {
+              val = "Invalid password";
+              if (bcrypt.compare(password, doc.data().password )) {
                 val = doc.data();
               }
             }
@@ -75,12 +85,30 @@ const loginUser = async (req, res) => {
           console.log(e);
         });
 
-      console.log("value " + datausers);
+        console.log(datausers);
 
-      if (datausers == "passowrd correct") {
-        res.status(200).send(datausers);
+      if (datausers === "invalid creds" || datausers === "Invalid password") {
+        res.status(200).send('Error occored');
       } else {
-        res.status(200).send(datausers);
+        //sending obj
+        const accesssToken = jwt.sign(
+          {
+            "user": datausers,
+          },
+          process.env.ACCESS_TOKEN_SECRET,
+          { expiresIn: "15m" }
+        );
+
+        const refreshToken = jwt.sign(
+          {
+            "username": datausers,
+          },
+          process.env.REFRESH_TOKEN_SECRET,
+          { expiresIn: "1d" }
+        );
+        
+
+        res.json({"accesssToken" : accesssToken, "refreshToken": refreshToken});
       }
     }
   } catch (err) {
