@@ -49,6 +49,47 @@ const registerUser = async (req, res) => {
   }
 };
 
+const loginUser = async (req, res) => {
+  try {
+    if (!req.body) {
+      res.status(200).send("Empty Body");
+    } else {
+      const { username, password } = req.body;
+
+      const userCollection = collection(firestoredb, "users");
+
+      const datausers = await getDocs(userCollection)
+        .then((snapshot) => {
+          let val = "invalid";
+          snapshot.docs.forEach((doc) => {
+            if (doc.id === username) {
+              val = "username correct";
+              if (doc.data().password === password) {
+                val = doc.data();
+              }
+            }
+          });
+          return val;
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+
+      console.log("value " + datausers);
+
+      if (datausers == "passowrd correct") {
+        res.status(200).send(datausers);
+      } else {
+        res.status(200).send(datausers);
+      }
+    }
+  } catch (err) {
+    res.status(500).send(err);
+    console.log(err);
+  }
+};
+
 module.exports = {
   registerUser,
+  loginUser,
 };
