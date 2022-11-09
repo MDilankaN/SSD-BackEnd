@@ -1,35 +1,32 @@
 const { initializeApp } = require('firebase/app')
 const { getStorage, uploadBytes ,ref } = require("firebase/storage")
 const { getDatabase } = require('firebase/database');
+const { getFirestore } = require('firebase/firestore');
+
 require('dotenv').config();
 
 const firebaseConfig = {
-    apiKey: process.env.API_KEY,
-    authDomain: process.env.AUTH_ADMIN,
-    projectId: process.env.PROJECT_ID,
-    storageBucket: process.env.STORAGE_BUCKET_ID,
-    messagingSenderId: process.env.MESSAGING_SENDER_ID,
-    appId: process.env.APP_ID,
-    measurementId: process.env.MESUREMENT_ID,
-    databaseURL: process.env.DATABES_URL
+    apiKey: "AIzaSyBGV1iXgRlJH9YJ5zFHF2GGCXUnjoI9F_Y",
+    authDomain: "ssd-assignment-2-6723b.firebaseapp.com",
+    databaseURL: "https://ssd-assignment-2-6723b-default-rtdb.firebaseio.com",
+    projectId: "ssd-assignment-2-6723b",
+    storageBucket: "ssd-assignment-2-6723b.appspot.com",
+    messagingSenderId: "238802327118",
+    appId: "1:238802327118:web:2bd8771762755d9b1f551f",
+    measurementId: "G-K303J998JX"
 };
-
+  
 // Initialize Firebase
-const appFirebase = initializeApp(firebaseConfig);
-// Get a database reference to our blog
-const database = getDatabase(appFirebase);
+ initializeApp(firebaseConfig);
 
+const firestoredb = getFirestore();
 
 const storageRef = getStorage();
 
-
-
-
 module.exports = {
     storageRef,
-    appFirebase,
     uploadBytes,
-    database
+    firestoredb,
 };
 
 // const uploadFile = (File file) => {
