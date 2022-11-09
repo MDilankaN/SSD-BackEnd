@@ -91,7 +91,7 @@ const loginUser = async (req, res) => {
         res.status(200).send('Error occored');
       } else {
         //sending obj
-        const accesssToken = jwt.sign(
+        const accessToken = jwt.sign(
           {
             "user": datausers,
           },
@@ -108,7 +108,7 @@ const loginUser = async (req, res) => {
         );
         
 
-        res.json({"accesssToken" : accesssToken, "refreshToken": refreshToken});
+        res.json({"accessToken" : accessToken, "refreshToken": refreshToken, "user": datausers});
       }
     }
   } catch (err) {
