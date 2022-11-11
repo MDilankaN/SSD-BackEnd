@@ -18,6 +18,7 @@ const registerUser = async (req, res) => {
       res.status(200).send("No registration yet");
     } else {
       const { username, email, password, type } = req.body;
+      console.log(req.body)
 
       const hashedPwd = await bcrypt.hash(password, 10);
 
