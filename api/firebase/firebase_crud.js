@@ -23,10 +23,10 @@ const firestoredb = getFirestore();
 
 const storage = getStorage(firebase,'gs://ssd-assignment-2-6723b.appspot.com/');
 
-const storageRef = ref(storage, 'FileUpload');
+
 
 module.exports = {
-    storageRef,
+    storage,
     uploadBytes,
     firestoredb,
     uploadBytesResumable
