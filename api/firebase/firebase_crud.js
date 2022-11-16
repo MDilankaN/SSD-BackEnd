@@ -1,5 +1,5 @@
 const { initializeApp } = require('firebase/app')
-const { getStorage, uploadBytes ,ref } = require("firebase/storage")
+const { getStorage, uploadBytes ,ref, uploadBytesResumable } = require('firebase/storage')
 const { getDatabase } = require('firebase/database');
 const { getFirestore } = require('firebase/firestore');
 
@@ -17,16 +17,19 @@ const firebaseConfig = {
 };
   
 // Initialize Firebase
- initializeApp(firebaseConfig);
+const firebase = initializeApp(firebaseConfig);
 
 const firestoredb = getFirestore();
 
-const storageRef = getStorage();
+const storage = getStorage(firebase,'gs://ssd-assignment-2-6723b.appspot.com/');
+
+const storageRef = ref(storage, 'FileUpload');
 
 module.exports = {
     storageRef,
     uploadBytes,
     firestoredb,
+    uploadBytesResumable
 };
 
 // const uploadFile = (File file) => {
