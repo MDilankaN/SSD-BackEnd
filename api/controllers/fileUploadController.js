@@ -1,11 +1,12 @@
 const {
     storageRef,
     uploadBytes,
+    uploadBytesResumable
 } = require("../firebase/firebase_crud");
 
+
 const addFiles = async (req, res) => {
-    try {
-        console.log(req.files)
+
 
         if (!req.files) {
             res.send({
@@ -13,23 +14,41 @@ const addFiles = async (req, res) => {
                 message: 'No file uploaded'
             });
         } else {
-            let fileUpload = req.files.fileUpload;
-            uploadBytes(storageRef, fileUpload).then((snapshot) => {
-                console.log('Uploaded a blob or file!');
-            });
-            res.send({
-                status: true,
-                message: 'File is uploaded',
-                data: {
-                    name: fileUpload.name,
-                    mimetype: fileUpload.mimetype,
-                    size: fileUpload.size
-                }
-            });
+            try {
+                let fileUpload = req.files.fileUpload;
+                // uploadTask.on(
+                //     "state_changed",
+                //     (snapshot) => {
+                //         const uploaded = Math.floor(
+                //             (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                //         );
+                //     },
+                //     (error) => {
+                //         console.log(error);
+                //     },
+                //     () => {
+                //
+                //     }
+                // );
+                uploadBytes(storageRef, fileUpload).then((snapshot) => {
+                    console.log(snapshot);
+                });
+                res.send({
+                    status: true,
+                    message: 'File is uploaded',
+                    data: {
+                        name: fileUpload.name,
+                        mimetype: fileUpload.mimetype,
+                        size: fileUpload.size
+                    }
+                });
+
+            } catch (err) {
+                console.log(err)
+                res.status(500).send(err);
+            }
         }
-    } catch (err) {
-        res.status(500).send(err);
-    }
+
 
 };
 

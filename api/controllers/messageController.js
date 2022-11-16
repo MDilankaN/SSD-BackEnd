@@ -2,8 +2,6 @@ const {
     database
 } = require("../firebase/firebase_crud");
 
-
-
 const messageSend = async (req, res) => {
     try {
 
