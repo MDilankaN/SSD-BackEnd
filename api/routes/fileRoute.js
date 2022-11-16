@@ -19,8 +19,9 @@ app.use(morgan('dev'));
 const {
     addFiles
 } = require("../controllers/fileUploadController");
+const verifyJWT = require("../middleware/verifyJWT");
 
 
-app.post("/fileAdd", addFiles);
+app.post("/fileAdd",verifyJWT, addFiles);
 
 module.exports = app;
